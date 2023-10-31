@@ -1,26 +1,3 @@
-<?php
-
-use Livewire\Attributes\Rule;
-use Livewire\Volt\Component;
-
-new class extends Component
-{
-    #[Rule(['required', 'string', 'current_password'])]
-    public string $password = '';
-
-    public function deleteUser(): void
-    {
-        $this->validate();
-
-        tap(auth()->user(), fn () => auth()->logout())->delete();
-
-        session()->invalidate();
-        session()->regenerateToken();
-
-        $this->redirect('/', navigate: true);
-    }
-}; ?>
-
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
