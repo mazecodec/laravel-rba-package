@@ -3,9 +3,7 @@
 namespace App\Livewire\Pages\Auth;
 
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
+use App\Services\Auth\LoginService;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -23,23 +21,17 @@ class Login extends Component
     #[Rule(['boolean'])]
     public bool $remember = false;
 
+    private LoginService $loginService;
+
+    /**
+     * @throws ValidationException
+     */
     public function login(): void
     {
         $this->validate();
 
-        $this->ensureIsNotRateLimited();
-
-        if (!auth()->attempt($this->only(['email', 'password'], $this->remember))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
-
-        RateLimiter::clear($this->throttleKey());
-
-        session()->regenerate();
+        $loginService = new LoginService();
+        $loginService($this->email, $this->password, $this->remember);
 
         $this->redirect(
             session('url.intended', RouteServiceProvider::HOME),
@@ -47,30 +39,9 @@ class Login extends Component
         );
     }
 
-    protected function ensureIsNotRateLimited(): void
+
+    public function render()
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
-        }
-
-        event(new Lockout(request()));
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
-    }
-
-    protected function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
-    }
-
-    public function render() {
         return view('livewire.pages.auth.login');
     }
 }

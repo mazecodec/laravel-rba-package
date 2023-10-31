@@ -3,7 +3,7 @@
 namespace App\Livewire\Pages\Auth;
 
 use App\Providers\RouteServiceProvider;
-use Illuminate\Validation\ValidationException;
+use App\Services\Auth\ConfirmPasswordService;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -14,20 +14,14 @@ class ConfirmPassword extends Component
     #[Rule(['required', 'string'])]
     public string $password = '';
 
+    private ConfirmPasswordService $confirmPasswordService;
+
     public function confirmPassword(): void
     {
         $this->validate();
 
-        if (! auth()->guard('web')->validate([
-            'email' => auth()->user()->email,
-            'password' => $this->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
-        }
-
-        session(['auth.password_confirmed_at' => time()]);
+        $confirmPasswordService = new ConfirmPasswordService();
+        $confirmPasswordService($this->password);
 
         $this->redirect(
             session('url.intended', RouteServiceProvider::HOME),
@@ -35,7 +29,8 @@ class ConfirmPassword extends Component
         );
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.pages.auth.confirm-password');
     }
 }

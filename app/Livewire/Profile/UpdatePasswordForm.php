@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Profile;
 
+use App\Services\Password\PasswordUpdateService;
 use Livewire\Component;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class UpdatePasswordForm extends Component
 {
@@ -23,9 +26,8 @@ class UpdatePasswordForm extends Component
             throw $e;
         }
 
-        auth()->user()->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+        $passwordUpdateService = new PasswordUpdateService();
+        $passwordUpdateService($validated['password']);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 

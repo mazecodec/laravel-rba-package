@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Profile;
 
+use App\Services\User\DeleteUserService;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -14,10 +15,8 @@ class DeleteUserForm extends Component
     {
         $this->validate();
 
-        tap(auth()->user(), fn () => auth()->logout())->delete();
-
-        session()->invalidate();
-        session()->regenerateToken();
+        $deleteUserService = new DeleteUserService();
+        $deleteUserService();
 
         $this->redirect('/', navigate: true);
     }

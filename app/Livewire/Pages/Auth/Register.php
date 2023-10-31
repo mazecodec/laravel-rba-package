@@ -4,18 +4,20 @@ namespace App\Livewire\Pages\Auth;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Hash;
+use App\Services\Auth\RegisterService;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.guest')]
-class Register
+class Register extends Component
 {
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+
+    private RegisterService $registerService;
 
     public function register(): void
     {
@@ -25,11 +27,8 @@ class Register
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-
-        event(new Registered($user = User::create($validated)));
-
-        auth()->login($user);
+        $registerService = new RegisterService();
+        $registerService($validated);
 
         $this->redirect(RouteServiceProvider::HOME, navigate: true);
     }

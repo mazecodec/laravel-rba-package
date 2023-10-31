@@ -4,6 +4,8 @@ namespace App\Livewire\Profile;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Services\Auth\SendVerificationService;
+use App\Services\User\UpdateUserProfileService;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -20,37 +22,28 @@ class UpdateProfileInformation extends Component
 
     public function updateProfileInformation(): void
     {
-        $user = auth()->user();
-
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
 
-        $user->fill($validated);
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
-
-        $user->save();
+        $updateUserProfileService = new UpdateUserProfileService();
+        $user = $updateUserProfileService($validated);
 
         $this->dispatch('profile-updated', name: $user->name);
     }
 
     public function sendVerification(): void
     {
-        $user = auth()->user();
+        $sendVerificationService = new SendVerificationService();
 
-        if ($user->hasVerifiedEmail()) {
+        if (!$sendVerificationService()) {
             $path = session('url.intended', RouteServiceProvider::HOME);
 
             $this->redirect($path);
 
             return;
         }
-
-        $user->sendEmailVerificationNotification();
 
         session()->flash('status', 'verification-link-sent');
     }

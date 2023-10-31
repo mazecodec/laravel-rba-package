@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Auth;
 
 use App\Providers\RouteServiceProvider;
+use App\Services\Auth\LogoutService;
+use App\Services\Auth\SendVerificationService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -11,26 +13,22 @@ class VerifyEmail  extends Component
 {
     public function sendVerification(): void
     {
-        if (auth()->user()->hasVerifiedEmail()) {
+        $sendVerificationService = new SendVerificationService();
+
+        if(!$sendVerificationService()) {
             $this->redirect(
                 session('url.intended', RouteServiceProvider::HOME),
                 navigate: true
             );
-
-            return;
         }
-
-        auth()->user()->sendEmailVerificationNotification();
 
         session()->flash('status', 'verification-link-sent');
     }
 
     public function logout(): void
     {
-        auth()->guard('web')->logout();
-
-        session()->invalidate();
-        session()->regenerateToken();
+        $logoutService = new LogoutService();
+        $logoutService();
 
         $this->redirect('/', navigate: true);
     }
