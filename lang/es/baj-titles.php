@@ -3,9 +3,11 @@
 return [
     "BAJA_MAQ_AGRICO" => "Documento acreditativo de la baja en el Registro Oficial de Maquinaría Agrícola",
     "CERTIFICA_EXTRA" => "Certificado de inscripción en registro central de extranjeros",
-    "CIF_NIF_NIE" => "CIF",
-    "CIF_NIF_NIE" => "NIE",
-    "CIF_NIF_NIE" => "NIF",
+    "CIF_NIF_NIE" => [
+        "CIF" => "CIF",
+        "NIE" => "NIE",
+        "NIF" => "NIF",
+    ],
     "CIF_NIF_NIE_REPRE" => "Identificación del representante",
     "DECLARA_PERDIDA" => "Declaración jurada de extravío en caso de pérdida del permiso de circulación",
     "DENUNCIA_ROBO" => "Denuncia presentada por el robo del vehículo",
