@@ -2,8 +2,8 @@
 
 namespace App\Domain\Entities;
 
-use App\domain\Enums\DocumentFileTypes;
-use App\domain\Enums\ProcedureType;
+use App\Domain\Enums\DocumentFileTypes;
+use App\Domain\Enums\ProcedureType;
 
 class Message
 {

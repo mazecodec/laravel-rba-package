@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entities;
 
-use App\domain\Enums\RoleUserTypes;
+use App\Domain\Enums\RoleUserTypes;
 
 class User
 {

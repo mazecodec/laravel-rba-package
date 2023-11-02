@@ -2,8 +2,13 @@
 
 namespace App\Domain\Enums;
 
+use App\Domain\Traits\HasArrayValues;
+use App\Domain\Traits\HasStringValue;
+
 enum DocumentFileTypes: string
 {
+    use HasArrayValues, HasStringValue;
+
     // Documento único
     case UNICO = "UNICO";
 

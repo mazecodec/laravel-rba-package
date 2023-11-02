@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entities;
 
-use App\domain\Enums\StatusType;
+use App\Domain\Enums\StatusType;
 
 class DocumentFile
 {

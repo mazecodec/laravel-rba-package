@@ -2,9 +2,9 @@
 
 namespace App\Domain\Entities;
 
-use App\domain\Enums\ProcedureType;
-use App\domain\Enums\SigaDocsStatusType;
-use App\domain\Enums\StatusType;
+use App\Domain\Enums\ProcedureType;
+use App\Domain\Enums\SigaDocsStatusType;
+use App\Domain\Enums\StatusType;
 
 class Procedure
 {
