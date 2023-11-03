@@ -6,7 +6,7 @@ use App\Domain\Enums\RoleUserTypes;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
 
 class UserAccessRole
 {
@@ -14,19 +14,17 @@ class UserAccessRole
      * Handle an incoming request.
      *
      * @param Request $request
-     * @param Closure(Request): (\Illuminate\Http\Response|RedirectResponse) $next
-     * @param RoleUserTypes $userType
-     * @return \Illuminate\Http\Response|RedirectResponse
+     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @param string $role
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, RoleUserTypes $userType)
+    public function handle(Request $request, Closure $next, string $role)
     {
-        var_dump($userType);
-
-        if (auth()->user()->type == $userType) {
+        dd(auth()->user()->role, RoleUserTypes::from($role));
+        if (auth()->user()->role == RoleUserTypes::from($role)) {
             return $next($request);
         }
 
-//        return response()->json(['You do not have permission to access for this page.']);
-        return response()->view('errors.check-permission');
+        abort('403', 'You are not allowed to access this resource.');
     }
 }

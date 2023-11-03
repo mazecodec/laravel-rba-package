@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\DgtDocumentRequirement;
 use Illuminate\Database\Seeder;
 
 class DgtDocumentRequirementSeeder extends Seeder
@@ -12,6 +12,6 @@ class DgtDocumentRequirementSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DgtDocumentRequirement::factory(5)->create();
     }
 }

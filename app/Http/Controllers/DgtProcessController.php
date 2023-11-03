@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DgtProcess;
 use App\Http\Requests\StoreDgtProcessRequest;
 use App\Http\Requests\UpdateDgtProcessRequest;
+use App\Models\DgtProcess;
+use Illuminate\Contracts\View\View;
 
 class DgtProcessController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /**
+     * @return View
+     */
+    public function index(): View
     {
-        //
+        return view('dgt_process.index');
     }
 
     /**

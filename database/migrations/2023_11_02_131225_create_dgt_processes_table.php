@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Enums\ProcedureType;
 use App\Domain\Enums\StatusType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,9 +14,11 @@ return new class extends Migration {
     {
         Schema::create('dgt_processes', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', StatusType::getArrayValues())->default(StatusType::REV->stringValue());
-            $table->enum('status_sigadocs', StatusType::getArrayValues())->default(StatusType::REV->stringValue());
+            $table->enum('type', ProcedureType::toArray());
+            $table->enum('status', StatusType::toArray())->default(StatusType::REV->stringValue());
+            $table->enum('status_sigadocs', StatusType::toArray())->default(StatusType::REV->stringValue());
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

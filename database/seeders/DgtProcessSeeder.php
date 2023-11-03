@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Domain\Enums\ProcedureType;
+use App\Domain\Enums\StatusType;
+use App\Models\DgtProcess;
 use Illuminate\Database\Seeder;
 
 class DgtProcessSeeder extends Seeder
@@ -12,6 +14,16 @@ class DgtProcessSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DgtProcess::factory()->create([
+            'type' => ProcedureType::MATRICULACION,
+        ]);
+
+        DgtProcess::factory()->create([
+            'type' => ProcedureType::TRANSFERENCIA,
+        ]);
+
+        DgtProcess::factory()->create([
+            'type' => ProcedureType::BAJA,
+        ]);
     }
 }

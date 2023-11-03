@@ -13,9 +13,10 @@ return new class extends Migration {
         Schema::create('auth_apis', function (Blueprint $table) {
             $table->id();
             $table->string('api_key');
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->timestamp('token_expired_at')->nullable();
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             $table->foreignId('user_id')
                 ->constrained()

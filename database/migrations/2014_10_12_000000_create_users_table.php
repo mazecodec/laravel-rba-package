@@ -16,11 +16,12 @@ return new class extends Migration {
             $table->string('name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->enum('role', RoleUserTypes::getArrayValues())->default(RoleUserTypes::CLIENTE->stringValue());
+            $table->enum('role', RoleUserTypes::toArray())->default(RoleUserTypes::CLIENTE->stringValue());
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             // Self reference parent
             $table->foreignId('parent_id')

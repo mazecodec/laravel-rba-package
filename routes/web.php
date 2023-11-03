@@ -4,16 +4,6 @@ use App\Domain\Enums\RoleUserTypes;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 /**
  * Se utilizará AlpineJS
  * https://dcreations.es/blog/laravel/implementar-alpine-js-en-laravel-10
@@ -22,14 +12,15 @@ use Illuminate\Support\Facades\Route;
  * https://martinbean.dev/blog/2021/07/29/simple-role-based-authentication-laravel/
  */
 
-Route::get('/', function () {
-    return redirect('auth.login');
-//    return view('welcome');
-});
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', function () {
+        dd('CLIENT ZONE', auth()->user());
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,22 +28,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'user-access:' . RoleUserTypes::CLIENTE->stringValue()])->group(function () {
+
+Route::middleware(['auth', 'verified', 'user-access:' . RoleUserTypes::CLIENTE->stringValue()])->group(function () {
     Route::get('/', function () {
-        dd('cliente');
+        dd('CLIENTE ZONE', auth()->user());
     });
 });
 
 Route::middleware(['auth', 'user-access: ' . RoleUserTypes::GESTOR->stringValue()])->group(function () {
     Route::get('/', function () {
-        dd('gestor');
+        dd('GESTOR ZONE', auth()->user());
     });
 });
 
 Route::middleware(['auth', 'user-access:' . RoleUserTypes::ADMIN->stringValue()])->group(function () {
-    Route::get('/', function () {
-        dd('admin');
-    });
+    Route::get('/dashboard', function () {
+        dd('ADMIN/GESTOR ZONE', auth()->user());
+        return view('dashboard', ['env' => auth()->user()->role->stringValue(]);])
+    })->name('dashboard');
 });
 
 

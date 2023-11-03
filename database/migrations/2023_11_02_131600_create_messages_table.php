@@ -13,9 +13,10 @@ return new class extends Migration {
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->enum('code', DocumentFileTypes::getArrayValues());
+            $table->enum('code', DocumentFileTypes::toArray());
             $table->text('text');
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
 
             $table->foreignId('dgt_process_id')->constrained();
         });

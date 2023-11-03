@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Domain\Enums\ProcedureType;
+use App\Domain\Enums\StatusType;
+use App\Models\DgtProcess;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DgtProcess>
+ * @extends Factory<DgtProcess>
  */
 class DgtProcessFactory extends Factory
 {
@@ -17,7 +20,12 @@ class DgtProcessFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'type' => fake()->randomElement(ProcedureType::toArray()),
+            'status' => fake()->randomElement(StatusType::toArray()),
+            'status_sigadocs' => fake()->randomElement(StatusType::toArray()),
+            'created_at' => fake()->randomElement([fake()->dateTime, null]),
+            'updated_at' => fake()->randomElement([fake()->dateTime, null]),
+            'deleted_at' => fake()->randomElement([fake()->dateTime, null])
         ];
     }
 }
