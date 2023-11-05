@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class UserDocumentFactory extends Factory
 {
+    protected $model = UserDocument::class;
+
     /**
      * Define the model's default state.
      *

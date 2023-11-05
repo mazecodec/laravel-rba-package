@@ -20,8 +20,7 @@ class UserAccessRole
      */
     public function handle(Request $request, Closure $next, string $role)
     {
-        dd(auth()->user()->role, RoleUserTypes::from($role));
-        if (auth()->user()->role == RoleUserTypes::from($role)) {
+        if ($request->user()->roles()->where('name', '=', $role)->exists()) {
             return $next($request);
         }
 

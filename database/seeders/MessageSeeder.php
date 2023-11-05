@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Domain\Enums\DocumentFileTypes;
+use App\Models\DgtProcess;
 use App\Models\Message;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,12 @@ class MessageSeeder extends Seeder
      */
     public function run(): void
     {
-        Message::factory(30)->create();
+        Message::factory()->create([
+            'code' => '',
+            'text' => '',
+            'dgt_process_id' => DgtProcess::inRandomOrder()->first(),
+        ]);
+
+        Message::factory()->count(30)->create();
     }
 }

@@ -2,15 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\AuthApi;
+use App\Domain\Enums\RoleUserTypes;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<AuthApi>
+ * @extends Factory<Role>
  */
-class AuthApiFactory extends Factory
+class RoleFactory extends Factory
 {
-    protected $model = AuthApi::class;
+    protected $model = Role::class;
 
     /**
      * Define the model's default state.
@@ -20,7 +21,7 @@ class AuthApiFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->randomElement(RoleUserTypes::toArray()),
         ];
     }
 }

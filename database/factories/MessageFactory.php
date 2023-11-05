@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MessageFactory extends Factory
 {
+    protected $model = Message::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,15 +21,13 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
-        $randomProcess = DgtProcess::inRandomOrder()->first();
-
         return [
             'code' => fake()->randomElement(DocumentFileTypes::toArray()),
             'text' => fake()->text(255),
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'dgt_process_id' => $randomProcess,
+            'dgt_process_id' => DgtProcess::inRandomOrder()->first(),
         ];
     }
 

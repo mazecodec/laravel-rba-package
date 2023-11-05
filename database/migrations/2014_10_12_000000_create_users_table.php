@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->enum('role', RoleUserTypes::toArray())->default(RoleUserTypes::CLIENTE->stringValue());
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

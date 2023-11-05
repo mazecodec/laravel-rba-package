@@ -31,10 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $userRole = auth()->user()->role;
-
-        if ($userRole == RoleUserTypes::ADMIN
-            || $userRole == RoleUserTypes::GESTOR) {
+        if (auth()->user()->isAgentOrAdmin()) {
             return redirect()->intended(RouteServiceProvider::DASHBOARD);
         }
 

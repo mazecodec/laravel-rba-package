@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class DgtProcessFactory extends Factory
 {
+    protected $model = DgtProcess::class;
+
     /**
      * Define the model's default state.
      *

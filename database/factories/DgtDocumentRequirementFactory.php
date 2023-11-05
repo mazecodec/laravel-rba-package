@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class DgtDocumentRequirementFactory extends Factory
 {
+    protected $model = DgtDocumentRequirement::class;
+
     /**
      * Define the model's default state.
      *

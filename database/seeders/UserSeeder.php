@@ -9,35 +9,48 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+    protected $model = User::class;
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin',
-            'last_name' => 'Sigadocs',
-            'email' => 'admin@test.net',
-            'password' => Hash::make('password'),
-            'role' => RoleUserTypes::ADMIN->stringValue(),
-        ]);
+        User::factory()
+            ->hasRoles(1, [
+                'name' => RoleUserTypes::ADMIN
+            ])
+            ->create([
+                'name' => 'Admin',
+                'last_name' => 'Sigadocs',
+                'email' => 'admin@test.net',
+                'password' => Hash::make('password'),
+            ]);
 
-        User::factory()->create([
-            'name' => 'Gestor',
-            'last_name' => 'Sigadocs',
-            'email' => 'gestor@test.net',
-            'password' => Hash::make('password'),
-            'role' => RoleUserTypes::GESTOR->stringValue(),
-        ]);
+        User::factory()
+            ->hasRoles(1, [
+                'name' => RoleUserTypes::AGENT
+            ])
+            ->create([
+                'name' => 'Gestor',
+                'last_name' => 'Sigadocs',
+                'email' => 'gestor@test.net',
+                'password' => Hash::make('password'),
+            ]);
 
-        User::factory()->create([
-            'name' => 'Cliente',
-            'last_name' => 'Sigadocs',
-            'email' => 'cliente@test.net',
-            'password' => Hash::make('password'),
-            'role' => RoleUserTypes::CLIENTE->stringValue(),
-        ]);
+        User::factory()
+            ->hasRoles(1, [
+                'name' => RoleUserTypes::CLIENT
+            ])
+            ->create([
+                'name' => 'Cliente',
+                'last_name' => 'Sigadocs',
+                'email' => 'cliente@test.net',
+                'password' => Hash::make('password'),
+            ]);
 
-        User::factory(10)->create();
+        User::factory()
+            ->count(10)
+            ->create();
     }
 }
