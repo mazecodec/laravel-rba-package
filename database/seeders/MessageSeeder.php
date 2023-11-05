@@ -15,11 +15,10 @@ class MessageSeeder extends Seeder
     public function run(): void
     {
         Message::factory()->create([
-            'code' => '',
-            'text' => '',
             'dgt_process_id' => DgtProcess::inRandomOrder()->first(),
         ]);
 
-        Message::factory()->count(30)->create();
+        // NOTE: 41 messages aprox in lang files
+        Message::factory()->count(41)->create();
     }
 }

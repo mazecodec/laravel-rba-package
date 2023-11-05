@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Domain\Entities\DocumentFile;
 use App\Domain\Enums\DocumentFileTypes;
 use App\Models\DgtProcess;
 use App\Models\Message;
@@ -21,9 +22,21 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
+        $code = fake()->unique()->randomElement(DocumentFileTypes::toArray());
+
+        if (!$code) return [];
+
+        $processDgt = DgtProcess::inRandomOrder()->first();
+        $message = new \App\Domain\Entities\Message(
+            $code,
+            fake()->text(50),
+            DocumentFileTypes::tryFrom(fake()->randomElement(DocumentFileTypes::toArray())),
+            $processDgt->type
+        );
+
         return [
-            'code' => fake()->randomElement(DocumentFileTypes::toArray()),
-            'text' => fake()->text(255),
+            'code' => $message->getCode(),
+            'text' => $message->description(),
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
