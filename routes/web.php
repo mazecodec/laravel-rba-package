@@ -1,6 +1,5 @@
 <?php
 
-use App\Domain\Enums\RoleUserTypes;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,40 +11,22 @@ use Illuminate\Support\Facades\Route;
  * https://martinbean.dev/blog/2021/07/29/simple-role-based-authentication-laravel/
  */
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
 
-//Route::middleware(['auth', 'verified'])->group(function () {
-//    Route::get('/', function () {
-//        dd('CLIENT ZONE', auth()->user());
-//    });
-//});
-
-Route::middleware(['auth', 'verified'])
-    ->group(function () {
-        Route::get('/dashboard', function () {
-            dd(auth()->user()->roles);
-//            return view('dashboard', [
-//                'env' => auth()->user()->roles
-//            ]);
-        })->name('dashboard')->middleware([
-            'user-access:' . RoleUserTypes::AGENT->stringValue(),
-        ]);
-
-//        Route::get('/', function () {
-//            return view('dashboard', [
-//                'env' => auth()->user()->role->stringValue()
-//            ]);
-//        })->name('home_gestor')->middleware(['user-access:' . RoleUserTypes::GESTOR->stringValue()]);
-
-        Route::get('/', function () {
-            dd('CLIENTE ZONE', auth()->user());
-        })->name('home_cliente')->middleware(['user-access:' . RoleUserTypes::CLIENT->stringValue()]);
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('login');
     });
-
+});
 
 Route::middleware('auth')->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->middleware(['client'])->name('home');
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['admin-agent'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

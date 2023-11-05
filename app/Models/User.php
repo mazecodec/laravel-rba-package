@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Domain\Enums\RoleUserTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,12 +57,21 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'parent_id', 'id');
     }
 
-    public function isClient(): bool
+    public function isAgent(): bool
     {
-        return $this->roles()->where('name', RoleUserTypes::CLIENT)->count();
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::AGENT;
+        });
     }
 
-    public function roles()
+    public function isClient(): bool
+    {
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::CLIENT;
+        });
+    }
+
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
@@ -71,13 +81,10 @@ class User extends Authenticatable
         return $this->isAgent() || $this->isAdmin();
     }
 
-    public function isAgent(): bool
-    {
-        return $this->roles()->where('name', RoleUserTypes::AGENT)->count();
-    }
-
     public function isAdmin(): bool
     {
-        return $this->roles()->where('name', RoleUserTypes::ADMIN)->count();
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::ADMIN;
+        });
     }
 }
