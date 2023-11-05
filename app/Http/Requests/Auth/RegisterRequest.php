@@ -3,7 +3,9 @@
 namespace App\Http\Requests\Auth;
 
 use App\Domain\Enums\RoleUserTypes;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
@@ -16,7 +18,13 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        /**
+         * This go before UserPolicy
+         * check if the user is authorized to access to this request
+         * @see UserPolicy::store
+         * @see RegisteredUserController::store
+         */
+        return true;
     }
 
     /**

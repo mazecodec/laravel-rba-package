@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin',
                 'last_name' => 'Sigadocs',
                 'email' => 'admin@test.net',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('admin'),
             ]);
 
         User::factory()
@@ -34,8 +34,8 @@ class UserSeeder extends Seeder
             ->create([
                 'name' => 'Gestor',
                 'last_name' => 'Sigadocs',
-                'email' => 'gestor@test.net',
-                'password' => Hash::make('password'),
+                'email' => 'agent@test.net',
+                'password' => Hash::make('agent'),
             ]);
 
         User::factory()
@@ -45,8 +45,8 @@ class UserSeeder extends Seeder
             ->create([
                 'name' => 'Cliente',
                 'last_name' => 'Sigadocs',
-                'email' => 'cliente@test.net',
-                'password' => Hash::make('password'),
+                'email' => 'client@test.net',
+                'password' => Hash::make('client'),
             ]);
 
         User::factory()

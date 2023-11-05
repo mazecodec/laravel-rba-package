@@ -87,4 +87,21 @@ class User extends Authenticatable
             return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::ADMIN;
         });
     }
+
+    /**
+     * Check if this user belongs to a role
+     *
+     * @return bool
+     */
+    public function hasRole($role_name)
+    {
+        foreach ($this->roles as $role) {
+
+            //I assumed the column which holds the role name is called role_name
+            if (RoleUserTypes::tryFrom($role->name) == $role_name) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
