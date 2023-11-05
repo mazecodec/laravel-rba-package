@@ -6,9 +6,11 @@ use App\Domain\Enums\ProcedureType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DgtProcess extends Model
+class DgtProcedure extends Model
 {
     use HasFactory;
+
+    protected $table = 'dgt_processes';
 
     protected $fillable = [
         'type',

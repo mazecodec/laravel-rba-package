@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Domain\Enums\DocumentFileTypes;
 use App\Models\DgtDocumentRequirement;
-use App\Models\DgtProcess;
+use App\Models\DgtProcedure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,8 +21,6 @@ class DgtDocumentRequirementFactory extends Factory
      */
     public function definition(): array
     {
-        $randomProcess = DgtProcess::inRandomOrder()->first();
-
         return [
             'code' => fake()->randomElement(DocumentFileTypes::toArray()),
             'file_extension' => fake()->fileExtension(),
@@ -31,7 +29,7 @@ class DgtDocumentRequirementFactory extends Factory
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'dgt_process_id' => $randomProcess,
+            'dgt_process_id' => DgtProcedure::inRandomOrder()->first(),
         ];
     }
 }

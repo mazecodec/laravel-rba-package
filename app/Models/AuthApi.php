@@ -9,7 +9,17 @@ class AuthApi extends Model
 {
     use HasFactory;
 
+    protected $table = 'auth_api';
+
     protected $fillable = [
-        'token'
+        'token',
+        'token_expired_at'
+    ];
+
+    protected $hidden = [
+        'api_key',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 }

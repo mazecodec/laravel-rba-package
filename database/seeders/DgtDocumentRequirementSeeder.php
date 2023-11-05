@@ -12,6 +12,6 @@ class DgtDocumentRequirementSeeder extends Seeder
      */
     public function run(): void
     {
-        DgtDocumentRequirement::factory(5)->create();
+        DgtDocumentRequirement::factory()->count(10)->create();
     }
 }

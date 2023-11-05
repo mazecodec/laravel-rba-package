@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dgt_processes', function (Blueprint $table) {
+        Schema::create('dgt_procedures', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ProcedureType::toArray());
             $table->enum('status', StatusType::toArray())->default(StatusType::REV->stringValue());
@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('dgt_processes');
+        Schema::dropIfExists('dgt_procedures');
     }
 };

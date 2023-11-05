@@ -4,7 +4,8 @@ namespace Database\Factories;
 
 use App\Domain\Entities\DocumentFile;
 use App\Domain\Enums\DocumentFileTypes;
-use App\Models\DgtProcess;
+use App\Domain\Enums\ProcedureType;
+use App\Models\DgtProcedure;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,9 +25,8 @@ class MessageFactory extends Factory
     {
         $code = fake()->unique()->randomElement(DocumentFileTypes::toArray());
 
-        if (!$code) return [];
+        $processDgt = DgtProcedure::inRandomOrder()->first();
 
-        $processDgt = DgtProcess::inRandomOrder()->first();
         $message = new \App\Domain\Entities\Message(
             $code,
             fake()->text(50),
@@ -35,19 +35,19 @@ class MessageFactory extends Factory
         );
 
         return [
-            'code' => $message->getCode(),
+            'code' => $code,
             'text' => $message->description(),
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'dgt_process_id' => DgtProcess::inRandomOrder()->first(),
+            'dgt_process_id' => $processDgt,
         ];
     }
 
-//    public function unverified(): static
-//    {
-//        return $this->state(fn(array $attributes) => [
-//            'dgt_process_id' => null,
-//        ]);
-//    }
+    public function unverified(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'dgt_process_id' => null,
+        ]);
+    }
 }

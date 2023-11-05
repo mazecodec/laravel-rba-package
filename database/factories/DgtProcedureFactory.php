@@ -4,15 +4,15 @@ namespace Database\Factories;
 
 use App\Domain\Enums\ProcedureType;
 use App\Domain\Enums\StatusType;
-use App\Models\DgtProcess;
+use App\Models\DgtProcedure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<DgtProcess>
+ * @extends Factory<DgtProcedure>
  */
-class DgtProcessFactory extends Factory
+class DgtProcedureFactory extends Factory
 {
-    protected $model = DgtProcess::class;
+    protected $model = DgtProcedure::class;
 
     /**
      * Define the model's default state.

@@ -18,7 +18,10 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
 
-            $table->foreignId('dgt_process_id')->constrained();
+            $table->foreignId('dgt_process_id')
+                  ->references('id')
+                  ->on('dgt_processes')
+                  ->constrained();
         });
     }
 
