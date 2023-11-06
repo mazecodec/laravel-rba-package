@@ -75,6 +75,7 @@
     "CIF": "Código de identificación fiscal de la persona jurídica",
     "NIE": "Número de identificación de extranjero",
     "NIF": "Número de identificación de personas físicas",
+    "Users": "Usuarios",
     "Roles": "Roles",
     "Select a value": "Seleccione un valor"
 }

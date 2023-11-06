@@ -34,10 +34,10 @@ return new class extends Migration {
                 ->references('id')
                 ->on('users');
 
-            $table->foreignId('dgt_process_id')
+            $table->foreignId('dgt_procedures_id')
                 ->constrained()
                 ->references('id')
-                ->on('dgt_processes');
+                ->on('dgt_procedures');
 
             $table->foreignId('dgt_document_requirements_id')
                 ->constrained()

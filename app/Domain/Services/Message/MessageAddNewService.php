@@ -3,12 +3,13 @@
 namespace App\Domain\Services\Message;
 
 use App\Domain\Entities\Message;
+use App\Domain\Interfaces\Message\MessageStore;
 
 class MessageAddNewService implements MessageStore
 {
 
-    public function storeMessage(Message $message): Message
+    public function storeMessage(Message $message): ?Message
     {
-        // TODO: Implement storeMessage() method.
+        return null;
     }
 }

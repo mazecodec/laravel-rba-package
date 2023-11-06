@@ -40,14 +40,14 @@ class MessageFactory extends Factory
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'dgt_process_id' => $processDgt,
+            'dgt_procedures_id' => $processDgt,
         ];
     }
 
     public function unverified(): static
     {
         return $this->state(fn(array $attributes) => [
-            'dgt_process_id' => null,
+            'dgt_procedures_id' => null,
         ]);
     }
 }

@@ -16,6 +16,10 @@ class Role extends Model
         'name',
     ];
 
+    protected $guarded = [
+        'id',
+    ];
+
     protected $casts = [
         'name' => 'string',
     ];

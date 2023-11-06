@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Domain\Enums\DocumentFileTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DgtDocumentRequirement extends Model
 {
@@ -19,8 +20,10 @@ class DgtDocumentRequirement extends Model
         'is_additional',
     ];
 
+    protected $guarded = [];
+
     protected $hidden = [
-        'dgt_process_id',
+        'dgt_procedures_id',
     ];
 
     protected $casts = [
@@ -29,4 +32,9 @@ class DgtDocumentRequirement extends Model
         'file_max_size' => 'integer',
         'is_additional' => 'boolean',
     ];
+
+    public function dgtProcedure(): BelongsTo
+    {
+        return $this->belongsTo(DgtProcedure::class);
+    }
 }

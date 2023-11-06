@@ -29,7 +29,7 @@ class DgtDocumentRequirementFactory extends Factory
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'dgt_process_id' => DgtProcedure::inRandomOrder()->first(),
+            'dgt_procedures_id' => DgtProcedure::inRandomOrder()->first(),
         ];
     }
 }

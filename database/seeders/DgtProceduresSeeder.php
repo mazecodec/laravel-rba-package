@@ -7,7 +7,7 @@ use App\Domain\Enums\StatusType;
 use App\Models\DgtProcedure;
 use Illuminate\Database\Seeder;
 
-class DgtProcessSeeder extends Seeder
+class DgtProceduresSeeder extends Seeder
 {
     /**
      * Run the database seeds.

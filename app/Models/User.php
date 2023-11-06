@@ -7,6 +7,7 @@ use App\Domain\Enums\RoleUserTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,11 +17,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'last_name',
@@ -28,33 +24,21 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    protected $guarded = [];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
-    public function clients(): ?HasMany
+    public function isAgentOrAdmin(): bool
     {
-        if ($this->isAgent()) {
-            return null;
-        }
-
-        return $this->hasMany(User::class, 'parent_id', 'id');
+        return $this->isAgent() || $this->isAdmin();
     }
 
     public function isAgent(): bool
@@ -64,23 +48,6 @@ class User extends Authenticatable
         });
     }
 
-    public function isClient(): bool
-    {
-        return $this->roles->contains(function ($role) {
-            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::CLIENT;
-        });
-    }
-
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function isAgentOrAdmin(): bool
-    {
-        return $this->isAgent() || $this->isAdmin();
-    }
-
     public function isAdmin(): bool
     {
         return $this->roles->contains(function ($role) {
@@ -88,20 +55,47 @@ class User extends Authenticatable
         });
     }
 
-    /**
-     * Check if this user belongs to a role
-     *
-     * @return bool
-     */
-    public function hasRole($role_name)
+    public function hasRole($role_name): bool
     {
         foreach ($this->roles as $role) {
-
             //I assumed the column which holds the role name is called role_name
             if (RoleUserTypes::tryFrom($role->name) == $role_name) {
                 return true;
             }
         }
         return false;
+    }
+
+    public function isClient(): bool
+    {
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::CLIENT;
+        });
+    }
+
+    public function clients(): ?HasMany
+    {
+        if ($this->isAgent() || $this->isClient()) {
+            return null;
+        }
+
+        return $this->hasMany(User::class, 'parent_id', 'id');
+    }
+
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(UserDocument::class);
+    }
+
+
+    public function authApi(): HasOne
+    {
+        return $this->hasOne(AuthApi::class);
     }
 }

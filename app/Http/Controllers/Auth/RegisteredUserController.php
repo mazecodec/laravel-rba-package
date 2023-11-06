@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Domain\Enums\RoleUserTypes;
+use App\Domain\Interfaces\User\RegisterNewUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -20,11 +21,13 @@ class RegisteredUserController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function store(RegisterRequest $request)
+    public function store(RegisterRequest $request, RegisterNewUser $register)
     {
         $this->authorize('store', User::class);
 
         $request->validated();
+
+        $register->registerNewUser($request->user());
 
         $user = User::create(
             $request->safe()

@@ -19,12 +19,25 @@ class Message
      * @param DocumentFileTypes $type
      * @param ProcedureType $procedureType
      */
-    public function __construct(string $code, string $text, DocumentFileTypes $type, ProcedureType $procedureType)
+    public function __construct(
+        string $code,
+        string $text,
+        DocumentFileTypes $type,
+        ProcedureType $procedureType)
     {
         $this->code = $code;
         $this->text = $text;
         $this->type = $type;
         $this->procedureType = $procedureType;
+    }
+
+    public static function create(
+        string $code,
+        string $text,
+        DocumentFileTypes $type,
+        ProcedureType $procedureType): Message
+    {
+        return new Message($code, $text, $type, $procedureType);
     }
 
     /**
@@ -105,24 +118,22 @@ class Message
     }
 
     /**
-     * @return string
-     */
-    public function title(): string
-    {
-        return $this->obtainString("titles");
-    }
-
-    /**
      * @param string $group
      * @return string
      */
     private function obtainString(string $group): string
     {
         $procedure = strtolower($this->procedureType->value);
-        $key = $this->type->value;
-
-        $location = "{$procedure}-{$group}.{$key}";
+        $location = sprintf("%s-%s.%s", $procedure, $group, $this->type->value);
 
         return __($location);
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->obtainString("titles");
     }
 }

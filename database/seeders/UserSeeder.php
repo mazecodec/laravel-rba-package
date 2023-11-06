@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domain\Enums\RoleUserTypes;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,38 +17,37 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()
-            ->hasRoles(1, [
-                'name' => RoleUserTypes::ADMIN
-            ])
+        $admin = Role::where('name', RoleUserTypes::ADMIN->stringValue())->first();
+        $agent = Role::where('name', RoleUserTypes::AGENT->stringValue())->first();
+        $client = Role::where('name', RoleUserTypes::CLIENT->stringValue())->first();
+
+        $userAdmin = User::factory()
             ->create([
                 'name' => 'Admin',
                 'last_name' => 'Sigadocs',
                 'email' => 'admin@test.net',
                 'password' => Hash::make('admin'),
             ]);
+        $userAdmin->roles()->save($admin);
+        $userAdmin->roles()->save($agent);
 
         User::factory()
-            ->hasRoles(1, [
-                'name' => RoleUserTypes::AGENT
-            ])
             ->create([
                 'name' => 'Gestor',
                 'last_name' => 'Sigadocs',
                 'email' => 'agent@test.net',
                 'password' => Hash::make('agent'),
-            ]);
+            ])
+            ->roles()->save($agent);
 
         User::factory()
-            ->hasRoles(1, [
-                'name' => RoleUserTypes::CLIENT
-            ])
             ->create([
                 'name' => 'Cliente',
                 'last_name' => 'Sigadocs',
                 'email' => 'client@test.net',
                 'password' => Hash::make('client'),
-            ]);
+            ])
+            ->roles()->save($client);
 
         User::factory()
             ->count(10)

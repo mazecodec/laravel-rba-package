@@ -17,7 +17,7 @@ class DgtProcessController extends Controller
      */
     public function index(): View
     {
-        return view('dgt_process.index');
+        return view('dgt_procedures.index');
     }
 
     /**

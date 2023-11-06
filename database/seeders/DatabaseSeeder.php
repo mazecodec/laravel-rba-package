@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            DgtProcessSeeder::class,
+            DgtProceduresSeeder::class,
             DgtDocumentRequirementSeeder::class,
             MessageSeeder::class,
             UserDocumentSeeder::class,

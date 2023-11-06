@@ -23,10 +23,6 @@ class UserDocumentFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::inRandomOrder()->first();
-        $processDgt = DgtProcedure::inRandomOrder()->first();
-        $docRequirement = DgtDocumentRequirement::inRandomOrder()->first();
-
         return [
             'name' => fake()->randomElement(DocumentFileTypes::toArray()),
             'type' => fake()->fileExtension(),
@@ -39,9 +35,9 @@ class UserDocumentFactory extends Factory
             'created_at' => fake()->randomElement([fake()->dateTime, null]),
             'updated_at' => fake()->randomElement([fake()->dateTime, null]),
             'deleted_at' => fake()->randomElement([fake()->dateTime, null]),
-            'uploaded_by' => $user,
-            'dgt_process_id' => $processDgt,
-            'dgt_document_requirements_id' => $docRequirement,
+            'uploaded_by' => User::inRandomOrder()->first(),
+            'dgt_procedures_id' => DgtProcedure::inRandomOrder()->first(),
+            'dgt_document_requirements_id' => DgtDocumentRequirement::inRandomOrder()->first(),
         ];
     }
 
@@ -49,7 +45,7 @@ class UserDocumentFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'uploaded_by' => null,
-            'dgt_process_id' => null,
+            'dgt_procedures_id' => null,
             'dgt_document_requirements_id' => null,
         ]);
     }

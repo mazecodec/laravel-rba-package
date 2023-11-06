@@ -73,7 +73,7 @@ npm run dev
 ## Datos de prueba
 
 Tenemos una colección de datos con los que poder hacer pruebas, todos ellos cargados por medio de
-seeders.
+[seeders](./database/seeders/DatabaseSeeder.php).
 En este caso podemos utilizar tres roles de usuario disponibles a continuación:
 
 + Administrador
@@ -86,12 +86,18 @@ En este caso podemos utilizar tres roles de usuario disponibles a continuación:
     + **email**: `client@test.net`
     + **password**: `client`
 
+### Middlewares
++ IsAdminMiddleware
++ isAgentOrAdminMiddleware
++ isClientMiddleware
+
 # ⚓ Enlaces de interes
 
 - [Laravel Documentation](https://laravel.com/docs/10.x)
 - [TailwindCSS](https://tailwindcss.com/docs/installation)
 - [Faker](https://fakerphp.github.io/)
 - [Debug bar](https://github.com/barryvdh/laravel-debugbar)
+- [Blade Icons](https://blade-ui-kit.com/blade-icons)
 
 <br>
 
