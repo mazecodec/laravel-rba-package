@@ -20,5 +20,6 @@
                     <button type="submit">Upload</button>
                 </form>
             </div>
+        </div>
     </x-content-app-layout>
 </x-client-layout>
