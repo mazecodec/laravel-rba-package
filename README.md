@@ -38,6 +38,12 @@ para ser utilizados en desarrollo
 php artisan migrate && php artisan db:seed
 ```
 
+> Para ejecutar todos estos cambios en un solo comando podemos utilizar el modulo **refresh** de las
+> migraciones con la opcion **--seed**
+> ```shell
+> php artisan migrate:refresh --seed
+> ```
+
 ### Quitar últimos cambios en DB
 
 Si se requiere quitar los últimos cambios realizados en base de datos a través de migraciones, se
@@ -45,30 +51,29 @@ debe ejecutar el siguiente comando en terminal
 
 ```shell
 php artisan migrate:rollback
-```
-
-> Para ejecutar todos estos cambios en un solo comando podemos utilizar el modulo **refresh** de las
-> migraciones con la opcion **--seed**
-> ```shell
-> php artisan migrate:refresh --seed
-> ```
 
 ## Ejecutar el servidor integrado en Laravel
 
 ### Levantamos el servidor PHP integrado en Laravel
+```
 
 ```shell 
 php artisan serve
 ```
 
-# Ejecutamos el compilador de desarrollo para los assets como javascript o css
+> Todos los comandos de artisan tienen la flag "**-h**" para obtener el detalle y ayuda
+> correspondiente
+
+
+### Ejecutamos el compilador de desarrollo para los assets como javascript o css
+
+```shell 
+npm install
+```
 
 ```shell 
 npm run dev
 ```
-
-> Todos los comandos de artisan tienen la flag "**-h**" para obtener el detalle y ayuda
-> correspondiente
 
 ## Datos de prueba
 
@@ -99,8 +104,4 @@ En este caso podemos utilizar tres roles de usuario disponibles a continuación:
 - [Debug bar](https://github.com/barryvdh/laravel-debugbar)
 - [Blade Icons](https://blade-ui-kit.com/blade-icons)
 
-<br>
-
-
-[![Siga98](https://www.gestores.net/assets/images/logo-siga.png "Siga98")](https://www.gestores.net/)
-
+<span style="width: 100%; display: block; text-align: center">[![Siga98](https://www.gestores.net/assets/images/logo-siga.png "Siga98")](https://www.gestores.net/)</span>

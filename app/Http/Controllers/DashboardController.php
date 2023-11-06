@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
-     */
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
+        if (auth()->user()->isClient()) {
+            return redirect()->route('dashboard.client');
+        }
+
         return view('dashboard');
     }
 }

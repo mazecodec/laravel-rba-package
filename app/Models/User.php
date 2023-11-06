@@ -88,9 +88,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function documents(): HasMany
+    public function userDocuments(): HasMany
     {
-        return $this->hasMany(UserDocument::class);
+        return $this->hasMany(UserDocument::class, 'uploaded_by', 'id');
     }
 
 
