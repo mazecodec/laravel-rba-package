@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 
 class HomeController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     * @return View
      */
     public function index(): View
     {
-        return view('home');
+        return view('home', [
+            'documents' => auth()->user()->userDocuments()->latest()->get()
+        ]);
     }
 }
