@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DgtProcess;
 use App\Http\Requests\StoreDgtProcessRequest;
 use App\Http\Requests\UpdateDgtProcessRequest;
+use App\Models\DgtProcedure;
+use Illuminate\Contracts\View\View;
 
 class DgtProcessController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /**
+     * @return View
+     */
+    public function index(): View
     {
-        //
+        return view('dgt_procedures.index');
     }
 
     /**
@@ -35,7 +39,7 @@ class DgtProcessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DgtProcess $dgtProcess)
+    public function show(DgtProcedure $dgtProcess)
     {
         //
     }
@@ -43,7 +47,7 @@ class DgtProcessController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DgtProcess $dgtProcess)
+    public function edit(DgtProcedure $dgtProcess)
     {
         //
     }
@@ -51,7 +55,7 @@ class DgtProcessController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDgtProcessRequest $request, DgtProcess $dgtProcess)
+    public function update(UpdateDgtProcessRequest $request, DgtProcedure $dgtProcess)
     {
         //
     }
@@ -59,7 +63,7 @@ class DgtProcessController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DgtProcess $dgtProcess)
+    public function destroy(DgtProcedure $dgtProcess)
     {
         //
     }

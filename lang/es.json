@@ -30,6 +30,7 @@
     "Login": "Iniciar sesión",
     "Logout": "Finalizar sesión",
     "Name": "Nombre",
+    "Last Name": "Apellidos",
     "New Password": "Nueva Contraseña",
     "Not Found": "No encontrado",
     "of": "de",
@@ -73,5 +74,8 @@
     "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
     "CIF": "Código de identificación fiscal de la persona jurídica",
     "NIE": "Número de identificación de extranjero",
-    "NIF": "Número de identificación de personas físicas"
+    "NIF": "Número de identificación de personas físicas",
+    "Users": "Usuarios",
+    "Roles": "Roles",
+    "Select a value": "Seleccione un valor"
 }

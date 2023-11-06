@@ -2,13 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\AuthApi;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AuthApi>
+ * @extends Factory<AuthApi>
  */
 class AuthApiFactory extends Factory
 {
+    protected $model = AuthApi::class;
+
     /**
      * Define the model's default state.
      *

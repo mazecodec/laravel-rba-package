@@ -10,6 +10,7 @@ enum RoleUserTypes: string
     use HasArrayValues, HasStringValue;
 
     case ADMIN = 'ADMIN';
-    case GESTOR = 'GESTOR';
-    case CLIENTE = 'CLIENTE';
+    case AGENT = 'GESTOR';
+    case CLIENT = 'CLIENTE';
+    case GUEST = 'GUEST';
 }

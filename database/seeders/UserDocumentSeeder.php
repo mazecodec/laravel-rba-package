@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserDocument;
 use Illuminate\Database\Seeder;
 
 class UserDocumentSeeder extends Seeder
@@ -12,6 +12,6 @@ class UserDocumentSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        UserDocument::factory(10)->create();
     }
 }

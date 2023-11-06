@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\DgtProcess;
+use App\Models\DgtProcedure;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class DgtProcessPolicy
 {
@@ -13,15 +12,15 @@ class DgtProcessPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->isAgentOrAdmin();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, DgtProcess $dgtProcess): bool
+    public function view(User $user, DgtProcedure $dgtProcess): bool
     {
-        //
+        return $user->isAgentOrAdmin();
     }
 
     /**
@@ -29,38 +28,38 @@ class DgtProcessPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isAgentOrAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, DgtProcess $dgtProcess): bool
+    public function update(User $user, DgtProcedure $dgtProcess): bool
     {
-        //
+        return $user->isAgentOrAdmin();
     }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, DgtProcess $dgtProcess): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, DgtProcess $dgtProcess): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, DgtProcess $dgtProcess): bool
-    {
-        //
-    }
+//
+//    /**
+//     * Determine whether the user can delete the model.
+//     */
+//    public function delete(User $user, DgtProcedure $dgtProcess): bool
+//    {
+//        return $user->isAgentOrAdmin();
+//    }
+//
+//    /**
+//     * Determine whether the user can restore the model.
+//     */
+//    public function restore(User $user, DgtProcedure $dgtProcess): bool
+//    {
+//        return $user->isAgentOrAdmin();
+//    }
+//
+//    /**
+//     * Determine whether the user can permanently delete the model.
+//     */
+//    public function forceDelete(User $user, DgtProcedure $dgtProcess): bool
+//    {
+//        return $user->isAgentOrAdmin();
+//    }
 }

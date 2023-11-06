@@ -2,50 +2,59 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Domain\Enums\RoleUserTypes;
+use App\Domain\Interfaces\User\RegisterNewUser;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
-    }
-
-    /**
      * Handle an incoming registration request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request, RegisterNewUser $register)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $this->authorize('store', User::class);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $request->validated();
+
+        $register->registerNewUser($request->user());
+
+        $user = User::create(
+            $request->safe()
+                    ->only([
+                        'name',
+                        'last_name',
+                        'email',
+                        'password',
+                        'role'
+                    ])
+        );
 
         event(new Registered($user));
 
-        Auth::login($user);
+        return redirect().route('users');
+    }
 
-        return redirect(RouteServiceProvider::HOME);
+    /**
+     * Display the registration view.
+     * @throws AuthorizationException
+     */
+    public function create(): View
+    {
+        $this->authorize('create', User::class);
+
+        return view('auth.register', [
+            'roles' => RoleUserTypes::toObject()
+        ]);
     }
 }

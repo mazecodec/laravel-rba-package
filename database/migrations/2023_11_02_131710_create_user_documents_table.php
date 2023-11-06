@@ -16,22 +16,29 @@ return new class extends Migration {
             $table->string('type');
             $table->string('extension');
             $table->string('path');
+            $table->integer('size'); // in bytes
             $table->string('status');
-            $table->timestamp('uploaded_at');
-            $table->timestamp('downloaded_at');
-            $table->string('uploaded_by');
-            $table->string('downloaded_by');
-            $table->timestamp('signed_at');
+            $table->timestamp('uploaded_at')->nullable();
+            $table->timestamp('signed_at')->nullable();
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
 
-            $table->foreignId('users_id')
+            $table->foreignId('uploaded_by')
                 ->constrained()
                 ->references('id')
                 ->on('users');
-            $table->foreignId('dgt_process_id')
+
+            $table->foreignId('signed_by')
+                ->nullable()
                 ->constrained()
                 ->references('id')
-                ->on('dgt_processes');
+                ->on('users');
+
+            $table->foreignId('dgt_procedures_id')
+                ->constrained()
+                ->references('id')
+                ->on('dgt_procedures');
+
             $table->foreignId('dgt_document_requirements_id')
                 ->constrained()
                 ->references('id')

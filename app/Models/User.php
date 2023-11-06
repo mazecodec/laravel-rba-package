@@ -4,102 +4,98 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Domain\Enums\RoleUserTypes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
-        'role'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    protected $guarded = [];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
+    public function isAgentOrAdmin(): bool
+    {
+        return $this->isAgent() || $this->isAdmin();
+    }
+
+    public function isAgent(): bool
+    {
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::AGENT;
+        });
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::ADMIN;
+        });
+    }
+
+    public function hasRole($role_name): bool
+    {
+        foreach ($this->roles as $role) {
+            //I assumed the column which holds the role name is called role_name
+            if (RoleUserTypes::tryFrom($role->name) == $role_name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isClient(): bool
+    {
+        return $this->roles->contains(function ($role) {
+            return RoleUserTypes::tryFrom($role->name) === RoleUserTypes::CLIENT;
+        });
+    }
+
     public function clients(): ?HasMany
     {
-        if ($this->role !== RoleUserTypes::GESTOR) {
+        if ($this->isAgent() || $this->isClient()) {
             return null;
         }
 
         return $this->hasMany(User::class, 'parent_id', 'id');
     }
 
-    public function isCliente(): bool
+
+    public function roles(): BelongsToMany
     {
-        return $this->role === RoleUserTypes::CLIENTE;
+        return $this->belongsToMany(Role::class);
     }
 
-    public function isGestorOrAdmin(): bool
+    public function documents(): HasMany
     {
-        return $this->isAdmin() || $this->isGestor();
+        return $this->hasMany(UserDocument::class);
     }
 
-    public function isAdmin(): bool
-    {
-        return $this->role === RoleUserTypes::ADMIN;
-    }
 
-    public function isGestor(): bool
+    public function authApi(): HasOne
     {
-        return $this->role === RoleUserTypes::GESTOR;
+        return $this->hasOne(AuthApi::class);
     }
-
-    public function isRole(RoleUserTypes $role): bool
-    {
-        return $this->role === $role;
-    }
-
-    /**
-     * Interact with the user's first name.
-     *
-     * @return Attribute
-     */
-    protected function role(): Attribute
-    {
-        return new Attribute(
-            get: function ($value) {
-                return RoleUserTypes::from($value);
-            },
-            set: function ($value) {
-                return RoleUserTypes::tryFrom($value);
-            },
-        );
-    }
-
-//    public function roles()
-//    {
-//        return $this->belongsToMany(Role::class);
-//    }
 }

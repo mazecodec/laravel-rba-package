@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services\Message;
+namespace App\Domain\Interfaces\Message;
 
 use App\Domain\Entities\Message;
 
