@@ -1,0 +1,49 @@
+{
+    "name": "mazecodec/laravel-azure-blob-storage",
+    "description": "Laravel 10 package - Azure Blob Storage",
+    "authors": [
+        {
+            "name": "Mazecodec",
+            "email": "mazecode.tec@gmail.com"
+        }
+    ],
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Mazecodec\\LaravelAzureBlobStorage\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mazecodec\\LaravelAzureBlobStorage\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "league/flysystem-azure-blob-storage": "^3.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "10.4.x-dev"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mazecodec\\LaravelAzureBlobStorage\\LaravelAzureBlobStorageServiceProvider"
+            ]
+        }
+    }
+}
